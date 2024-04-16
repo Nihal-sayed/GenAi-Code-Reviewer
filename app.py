@@ -1,26 +1,27 @@
 import openai
 import streamlit as st
 
-# Read OpenAI API key from file
-with open("keys/.openai_api_key.txt", "r") as f:
-    key = f.read().strip()
-
-# Create OpenAI client
-openai.api_key = key
+f = open("keys/.openai_api_key.txt")
+key = f.read()
+client = OpenAI(api_key=key)
 
 st.snow()
 st.title("GenAI Code Reviewer")
 
-# Take user input
+## Take the user input
 prompt = st.text_area("Input a python Code...")
 
-# Generate response when button is clicked
-if st.button("Check"):
-    response = openai.Completion.create(
-        engine="davinci-codex",  # Use the Codex engine for code-related tasks
-        prompt=prompt,
-        max_tokens=150  # Adjust max tokens as needed
+## if the button is clicked generate the responses
+if st.button("Check") == True:
+    response = client.chat.completions.create(
+        model = "gpt-3.5-turbo",
+        messages = [
+            {"role": "system", "content": """You are a Code Reviewer.
+                                            Note down all the bugs and error. 
+                                            Display the correct code.
+                                          """},
+            {"role": "user", "content": prompt}
+        ]
     )
-
-    # Display response
-    st.write(response.choices[0].text)
+    ## print the response on the web page
+    st.write(response.choices[0].message.content)
