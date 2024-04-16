@@ -1,5 +1,6 @@
 from openai import OpenAI
 import streamlit as st
+from openai import ClassificationEngine
 
 f = open("keys/.openai_api_key.txt")
 key = f.read()
