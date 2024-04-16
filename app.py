@@ -1,7 +1,7 @@
 import openai
 import streamlit as st
 
-f = open("keys/.openai_api_key.txt")
+f = open(".openai_api_key.txt")
 key = f.read()
 client = OpenAI(api_key=key)
 
@@ -16,9 +16,8 @@ if st.button("Check") == True:
     response = client.chat.completions.create(
         model = "gpt-3.5-turbo",
         messages = [
-            {"role": "system", "content": """You are a Code Reviewer.
-                                            Note down all the bugs and error. 
-                                            Display the correct code.
+            {"role": "system", "content": """figure out all the bugs and error. 
+                                            and Display the correct code.
                                           """},
             {"role": "user", "content": prompt}
         ]
